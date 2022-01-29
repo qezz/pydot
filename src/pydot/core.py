@@ -547,7 +547,7 @@ class Node(Common):
     be supported.
     """
 
-    def __init__(self, name="", obj_dict=None, **attrs):
+    def __init__(self, __name="", obj_dict=None, **attrs):
         #
         # Nodes will take attributes of
         # all other types because the defaults
@@ -573,15 +573,15 @@ class Node(Common):
             # Remove the compass point
             #
             port = None
-            if isinstance(name, str) and not name.startswith('"'):
-                idx = name.find(":")
-                if idx > 0 and idx + 1 < len(name):
-                    name, port = name[:idx], name[idx:]
+            if isinstance(__name, str) and not __name.startswith('"'):
+                idx = __name.find(":")
+                if idx > 0 and idx + 1 < len(__name):
+                    __name, port = __name[:idx], __name[idx:]
 
-            if isinstance(name, int):
-                name = str(name)
+            if isinstance(__name, int):
+                __name = str(__name)
 
-            self.obj_dict["name"] = quote_if_necessary(name)
+            self.obj_dict["__name"] = quote_if_necessary(__name)
             self.obj_dict["port"] = port
 
         self.create_attribute_methods(NODE_ATTRIBUTES)
@@ -591,11 +591,11 @@ class Node(Common):
 
     def set_name(self, node_name):
         """Set the node's name."""
-        self.obj_dict["name"] = node_name
+        self.obj_dict["__name"] = node_name
 
     def get_name(self):
         """Get the node's name."""
-        return self.obj_dict["name"]
+        return self.obj_dict["__name"]
 
     def get_port(self):
         """Get the node's port."""
@@ -615,7 +615,7 @@ class Node(Common):
         """Return string representation of node in DOT language."""
         # RMF: special case defaults for node, edge and graph properties.
         #
-        node = quote_if_necessary(self.obj_dict["name"])
+        node = quote_if_necessary(self.obj_dict["__name"])
 
         node_attr = list()
 
@@ -881,7 +881,7 @@ class Graph(Common):
                     ).format(t=graph_type)
                 )
 
-            self.obj_dict["name"] = quote_if_necessary(graph_name)
+            self.obj_dict["__name"] = quote_if_necessary(graph_name)
             self.obj_dict["type"] = graph_type
 
             self.obj_dict["strict"] = strict
@@ -977,11 +977,11 @@ class Graph(Common):
 
     def set_name(self, graph_name):
         """Set the graph's name."""
-        self.obj_dict["name"] = graph_name
+        self.obj_dict["__name"] = graph_name
 
     def get_name(self):
         """Get the graph's name."""
-        return self.obj_dict["name"]
+        return self.obj_dict["__name"]
 
     def set_strict(self, val):
         """Set graph to 'strict' mode.
@@ -1340,7 +1340,7 @@ class Graph(Common):
         ):
             graph_type = ""
         s = "{type} {name} {{\n".format(
-            type=graph_type, name=self.obj_dict["name"]
+            type=graph_type, name=self.obj_dict["__name"]
         )
         graph.append(s)
 
